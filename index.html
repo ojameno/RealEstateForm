@@ -10,7 +10,7 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
-            padding-bottom: 150px; /* Extra space */
+            padding-bottom: 150px; /* Extra space to avoid overlaps */
         }
 
         input, textarea {
@@ -28,9 +28,12 @@
             cursor: pointer;
             font-size: 18px;
             position: fixed;
-            bottom: 20px;
+            bottom: env(safe-area-inset-bottom, 20px);
             left: 50%;
             transform: translateX(-50%);
+            width: 90%;
+            max-width: 300px;
+            z-index: 9999;
             transition: bottom 0.2s ease-in-out;
         }
     </style>
@@ -52,7 +55,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            Telegram.WebApp.expand();  // Force full-screen WebView
+            Telegram.WebApp.expand(); // Ensure full WebApp expansion
         });
 
         function submitForm() {
@@ -71,20 +74,19 @@
             window.Telegram.WebApp.close(); // Closes the Web App after submission
         }
 
-        // Fix: Detect Mobile Keyboard Open and Move Button
-        let initialHeight = window.innerHeight;
-        window.addEventListener("resize", function () {
-            let currentHeight = window.innerHeight;
+        // Detect if the keyboard is open and move the button accordingly
+        function adjustButtonPosition() {
             let button = document.getElementById("submitBtn");
-
-            if (currentHeight < initialHeight) {  // Keyboard Open
-                button.style.bottom = "80px"; // Move button up
-            } else {  // Keyboard Closed
-                button.style.bottom = "20px"; // Reset button position
+            if (window.innerHeight < 600) {  // If the height shrinks, assume keyboard is open
+                button.style.bottom = "100px"; // Move button above the keyboard
+            } else {
+                button.style.bottom = "env(safe-area-inset-bottom, 20px)"; // Default position
             }
-        });
+        }
 
-        // Extra Fix: Add More Space When Input is Focused
+        window.addEventListener("resize", adjustButtonPosition);
+
+        // Extra Fix: Ensure enough space when focusing input
         document.querySelectorAll("input, textarea").forEach(element => {
             element.addEventListener("focus", function () {
                 document.body.style.paddingBottom = "250px"; // Push content up
@@ -94,7 +96,6 @@
             });
         });
 
-        // Initialize Telegram Web App settings
         Telegram.WebApp.ready();
     </script>
 
