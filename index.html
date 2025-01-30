@@ -10,18 +10,13 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
-            padding-bottom: 150px; /* Extra padding for keyboard */
-            margin: 0;
-            min-height: 150vh; /* Forces scrolling */
         }
-
         input, textarea {
             width: 90%;
             padding: 10px;
             margin: 10px 0;
             font-size: 16px;
         }
-
         button {
             background-color: #0088cc;
             color: white;
@@ -29,16 +24,7 @@
             border: none;
             cursor: pointer;
             font-size: 18px;
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 300px;
-            z-index: 9999;
-            transition: bottom 0.2s ease-in-out;
         }
-
         .spacer {
             height: 300px; /* Artificial scrolling space */
         }
@@ -46,9 +32,9 @@
 </head>
 <body>
 
-    <h2>🏠 Add new apartment</h2>
+    <h2>🏠 Add Your Apartment</h2>
 
-    <input type="text" id="owner_name" placeholder="Owner's name">
+ <input type="text" id="owner_name" placeholder="Owner's name">
     <input type="text" id="owner_phone" placeholder="Owner's phone">
     <input type="text" id="city" placeholder="City">
     <input type="text" id="street" placeholder="Street">
@@ -57,15 +43,10 @@
     <input type="number" id="price" placeholder="Price (EURO)">
     <textarea id="description" placeholder="Description"></textarea>
 
-    <button id="submitBtn" onclick="submitForm()">Submit</button>
+    <button onclick="submitForm()">Submit</button>
 
     <div class="spacer"></div> <!-- Extra space to force scrolling -->
-
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            Telegram.WebApp.expand(); // Expands the WebView fully
-        });
-
         function submitForm() {
             const data = {
                 owner_name: document.getElementById("owner_name").value,
@@ -82,28 +63,9 @@
             window.Telegram.WebApp.close(); // Closes the Web App after submission
         }
 
-        // Force scrolling if needed
-        function ensureScrollable() {
-            let spacer = document.querySelector(".spacer");
-            if (document.body.scrollHeight < window.innerHeight) {
-                spacer.style.height = "300px"; // Forces page to be scrollable
-            }
-        }
-
-        // Adjust button when keyboard appears
-        function adjustButtonForKeyboard() {
-            let button = document.getElementById("submitBtn");
-            if (window.innerHeight < 600) {  // If height shrinks, keyboard is open
-                button.style.bottom = "150px"; // Move button above keyboard
-            } else {
-                button.style.bottom = "20px"; // Default position
-            }
-        }
-
-        window.addEventListener("resize", adjustButtonForKeyboard);
-        document.addEventListener("DOMContentLoaded", ensureScrollable);
+        // Initialize Telegram Web App settings
         Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
     </script>
 
 </body>
-</html>
