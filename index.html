@@ -65,19 +65,13 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             console.log("✅ Telegram WebApp Initialized");
+            Telegram.WebApp.ready();
 
-            // Force WebApp to be fully ready
-            setTimeout(() => {
-                Telegram.WebApp.ready();
-                console.log("🔄 Calling Telegram.WebApp.ready()");
-            }, 500);
-
-            // Debug: Check if WebApp is really ready
+            // Debugging: Listen for WebApp events
             Telegram.WebApp.onEvent("web_app_ready", function () {
                 console.log("✅ Telegram WebApp is ready.");
             });
 
-            // Debug: Listen for `web_app_data_send`
             Telegram.WebApp.onEvent("web_app_data_send", function () {
                 console.log("📡 WebApp Data Sent Event Triggered!");
             });
@@ -86,13 +80,19 @@
         function submitForm() {
             const data = {
                 owner_name: document.getElementById("owner_name").value,
-                owner_phone: document.getElementById("owner_phone").value
+                owner_phone: document.getElementById("owner_phone").value,
+                city: document.getElementById("city").value,
+                street: document.getElementById("street").value,
+                building: document.getElementById("building").value,
+                area: document.getElementById("area").value,
+                price: document.getElementById("price").value,
+                description: document.getElementById("description").value
             };
 
             console.log("✅ Sending WebApp Data:", JSON.stringify(data));
 
             try {
-                Telegram.WebApp.sendData(JSON.stringify(data));
+                Telegram.WebApp.sendData(JSON.stringify(data));  // Send data to bot
                 console.log("📡 `sendData()` executed successfully.");
             } catch (error) {
                 console.error("❌ `sendData()` failed:", error);
@@ -101,7 +101,6 @@
             setTimeout(() => Telegram.WebApp.close(), 500);
         }
     </script>
-
 
 </body>
 </html>
