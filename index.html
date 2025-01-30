@@ -10,7 +10,6 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
-            padding-bottom: 150px; /* Extra space for the keyboard */
         }
         input, textarea {
             width: 90%;
@@ -44,6 +43,9 @@
     <button onclick="submitForm()">Submit</button>
 
     <script>
+        window.addEventListener("resize", function () {
+             document.body.scrollTop = document.body.scrollHeight;
+        });
         function submitForm() {
             const data = {
                 owner_name: document.getElementById("owner_name").value,
