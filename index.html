@@ -10,9 +10,9 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
-            padding-bottom: 100px; /* Initial padding */
+            padding-bottom: 150px; /* Extra padding for keyboard */
             margin: 0;
-            overflow: hidden; /* Prevent unwanted scrolling */
+            min-height: 150vh; /* Forces scrolling */
         }
 
         input, textarea {
@@ -38,6 +38,10 @@
             z-index: 9999;
             transition: bottom 0.2s ease-in-out;
         }
+
+        .spacer {
+            height: 300px; /* Artificial scrolling space */
+        }
     </style>
 </head>
 <body>
@@ -55,9 +59,11 @@
 
     <button id="submitBtn" onclick="submitForm()">Submit</button>
 
+    <div class="spacer"></div> <!-- Extra space to force scrolling -->
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            Telegram.WebApp.expand(); // Expand the WebView to full height
+            Telegram.WebApp.expand(); // Expands the WebView fully
         });
 
         function submitForm() {
@@ -76,36 +82,27 @@
             window.Telegram.WebApp.close(); // Closes the Web App after submission
         }
 
-        // Detect keyboard and adjust button position
+        // Force scrolling if needed
+        function ensureScrollable() {
+            let spacer = document.querySelector(".spacer");
+            if (document.body.scrollHeight < window.innerHeight) {
+                spacer.style.height = "300px"; // Forces page to be scrollable
+            }
+        }
+
+        // Adjust button when keyboard appears
         function adjustButtonForKeyboard() {
             let button = document.getElementById("submitBtn");
-            let windowHeight = window.innerHeight;
-            let documentHeight = document.documentElement.clientHeight;
-
-            if (windowHeight < documentHeight) {  // If the screen height shrinks, assume keyboard is open
-                button.style.bottom = "120px"; // Move button above the keyboard
+            if (window.innerHeight < 600) {  // If height shrinks, keyboard is open
+                button.style.bottom = "150px"; // Move button above keyboard
             } else {
-                button.style.bottom = "20px"; // Reset button position
+                button.style.bottom = "20px"; // Default position
             }
         }
 
         window.addEventListener("resize", adjustButtonForKeyboard);
-
-        // Prevent content from being hidden under the keyboard
-        document.querySelectorAll("input, textarea").forEach(element => {
-            element.addEventListener("focus", function () {
-                document.body.style.paddingBottom = "300px"; // Push content up when typing
-            });
-            element.addEventListener("blur", function () {
-                document.body.style.paddingBottom = "100px"; // Reset padding when typing stops
-            });
-        });
-
-        // Force the WebApp to expand and prevent shrinking
+        document.addEventListener("DOMContentLoaded", ensureScrollable);
         Telegram.WebApp.ready();
-        setTimeout(() => {
-            Telegram.WebApp.expand();
-        }, 500);
     </script>
 
 </body>
