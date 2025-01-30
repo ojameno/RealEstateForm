@@ -43,6 +43,10 @@
     <button onclick="submitForm()">Submit</button>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        Telegram.WebApp.expand();
+        });
+        
         function submitForm() {
             const data = {
                 owner_name: document.getElementById("owner_name").value,
