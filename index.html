@@ -10,12 +10,18 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         input, textarea {
             width: 90%;
             padding: 10px;
             margin: 10px 0;
             font-size: 16px;
+            box-sizing: border-box;
         }
         button {
             background-color: #0088cc;
@@ -24,9 +30,12 @@
             border: none;
             cursor: pointer;
             font-size: 18px;
+            width: 90%;
+            max-width: 300px;
+            margin-top: 10px;
         }
         .spacer {
-            height: 300px; /* Artificial scrolling space */
+            height: 50px; /* Extra space */
         }
     </style>
 </head>
@@ -34,7 +43,7 @@
 
     <h2>🏠 Add Your Apartment</h2>
 
- <input type="text" id="owner_name" placeholder="Owner's name">
+    <input type="text" id="owner_name" placeholder="Owner's name">
     <input type="text" id="owner_phone" placeholder="Owner's phone">
     <input type="text" id="city" placeholder="City">
     <input type="text" id="street" placeholder="Street">
@@ -43,9 +52,11 @@
     <input type="number" id="price" placeholder="Price (EURO)">
     <textarea id="description" placeholder="Description"></textarea>
 
-    <button onclick="submitForm()">Submit</button>
+    <!-- Submit button is placed right below the inputs -->
+    <button id="submitBtn" onclick="submitForm()">Submit</button>
 
-    <div class="spacer"></div> <!-- Extra space to force scrolling -->
+    <div class="spacer"></div> <!-- Extra space for better scrolling -->
+
     <script>
         function submitForm() {
             const data = {
@@ -63,9 +74,25 @@
             window.Telegram.WebApp.close(); // Closes the Web App after submission
         }
 
+        // Adjust button when keyboard appears
+        function adjustButtonForKeyboard() {
+            let button = document.getElementById("submitBtn");
+            let windowHeight = window.innerHeight;
+            let documentHeight = document.documentElement.clientHeight;
+
+            if (windowHeight < documentHeight) {  // Keyboard is open
+                button.style.position = "relative"; // Keep it inside layout
+            } else {
+                button.style.position = "static"; // Default position
+            }
+        }
+
+        window.addEventListener("resize", adjustButtonForKeyboard);
+
         // Initialize Telegram Web App settings
         Telegram.WebApp.ready();
         Telegram.WebApp.expand();
     </script>
 
 </body>
+</html>
