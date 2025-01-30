@@ -37,7 +37,6 @@
 
     <h2>🏠 Add new apartment</h2>
 
-    <button onclick="submitForm()">Submit</button>
     <input type="text" id="owner_name" placeholder="Owner's name">
     <input type="text" id="owner_phone" placeholder="Owner's phone">
     <input type="text" id="city" placeholder="City">
@@ -47,10 +46,13 @@
     <input type="number" id="price" placeholder="Price (EURO)">
     <textarea id="description" placeholder="Description"></textarea>
 
+    <button onclick="submitForm()">Submit</button>
+
     <script>
-        window.addEventListener("resize", function () {
-             window.scrollTo(0, document.body.scrollHeight);
+        document.addEventListener("DOMContentLoaded", function () {
+             Telegram.WebApp.expand();  // Force full-screen WebView
         });
+
         function submitForm() {
             const data = {
                 owner_name: document.getElementById("owner_name").value,
