@@ -62,27 +62,8 @@
     <div class="spacer"></div> <!-- Extra space for better scrolling -->
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            console.log("✅ Telegram WebApp Initialized");
-
-            setTimeout(() => {
-                if (window.Telegram && Telegram.WebApp) {
-                    Telegram.WebApp.ready();
-                    console.log("🔄 Calling Telegram.WebApp.ready()");
-                } else {
-                    console.error("❌ Telegram WebApp API not available.");
-                }
-            }, 500);
-
-            Telegram.WebApp.onEvent("web_app_ready", function () {
-                console.log("✅ Telegram WebApp is ready.");
-            });
-
-            Telegram.WebApp.onEvent("web_app_data_send", function () {
-                console.log("📡 WebApp Data Sent Event Triggered!");
-            });
-        });
-
+        const urlParams = new URLSearchParams(window.location.search);
+        const chatId = urlParams.get('chat_id');
         function submitForm() {
             const data = {
                 type: document.getElementById("type").value,  // ✅ Fixed missing type field
@@ -96,20 +77,19 @@
                 description: document.getElementById("description").value
             };
 
-            console.log("✅ Sending WebApp Data:", JSON.stringify(data));
-
-            try {
-                if (window.Telegram && Telegram.WebApp) {
-                    Telegram.WebApp.sendData(JSON.stringify(data));  // ✅ Ensuring Telegram API is available
-                    console.log("📡 `sendData()` executed successfully.");
-                } else {
-                    console.error("❌ Telegram WebApp API is not available.");
-                }
-            } catch (error) {
-                console.error("❌ `sendData()` failed:", error);
-            }
-
-            setTimeout(() => Telegram.WebApp.close(), 500);
+                fetch('https://api.telegram.org/bot7134067397:AAGxH8VvtdnxgfpqClU_fycxYtcgqGKNOM4/sendMessage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: JSON.stringify(data)
+                    })
+                })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error(error));
         }
     </script>
 
