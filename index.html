@@ -63,9 +63,24 @@
     <div class="spacer"></div> <!-- Extra space for better scrolling -->
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Telegram.WebApp.expand();  // Ensures full-screen mode
+
+            // ✅ Debugging: Check if Telegram WebApp is initialized
+            console.log("✅ Telegram WebApp Initialized");
+
+            // ✅ Debugging: Listen for WebApp events
+            Telegram.WebApp.onEvent("web_app_ready", function () {
+                console.log("✅ Telegram WebApp is ready.");
+            });
+
+            Telegram.WebApp.onEvent("web_app_data_send", function () {
+                console.log("📡 WebApp Data Sent Event Triggered!");
+            });
+        });
+
         function submitForm() {
             const data = {
-                type: document.getElementById("type").value,
                 owner_name: document.getElementById("owner_name").value,
                 owner_phone: document.getElementById("owner_phone").value,
                 city: document.getElementById("city").value,
@@ -77,34 +92,18 @@
             };
 
             console.log("✅ Sending WebApp Data:", JSON.stringify(data));
-            // Debug: Capture Telegram WebApp event before sending
-            Telegram.WebApp.onEvent("web_app_data_send", function () {
-            console.log("📡 WebApp Data Sent Event Triggered!");
-            });
 
-            Telegram.WebApp.sendData(JSON.stringify(data));  // Send data to bot
+            try {
+                Telegram.WebApp.sendData(JSON.stringify(data));  // Send data to bot
+                console.log("📡 `sendData()` executed successfully.");
+            } catch (error) {
+                console.error("❌ `sendData()` failed:", error);
+            }
+
             setTimeout(() => Telegram.WebApp.close(), 500);  // Delay closing for debugging
         }
-
-        // Adjust button when keyboard appears
-        function adjustButtonForKeyboard() {
-            let button = document.getElementById("submitBtn");
-            let windowHeight = window.innerHeight;
-            let documentHeight = document.documentElement.clientHeight;
-
-            if (windowHeight < documentHeight) {  // Keyboard is open
-                button.style.position = "relative"; // Keep it inside layout
-            } else {
-                button.style.position = "static"; // Default position
-            }
-        }
-
-        window.addEventListener("resize", adjustButtonForKeyboard);
-
-        // Initialize Telegram Web App settings
-        Telegram.WebApp.ready();
-        Telegram.WebApp.expand();
     </script>
+
 
 </body>
 </html>
