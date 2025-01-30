@@ -16,7 +16,7 @@
             flex-direction: column;
             align-items: center;
         }
-        input, textarea {
+        input, select, textarea {
             width: 90%;
             padding: 10px;
             margin: 10px 0;
@@ -35,7 +35,7 @@
             margin-top: 10px;
         }
         .spacer {
-            height: 300px; /* Extra space */
+            height: 300px; /* Extra space for better scrolling */
         }
     </style>
 </head>
@@ -43,7 +43,7 @@
 
     <h2>🏠 Add Your Apartment</h2>
 
-     <select id="type">
+    <select id="type">
         <option value="" disabled selected>Select Type</option>
         <option value="rent">Rent</option>
         <option value="sale">Sale</option>
@@ -57,7 +57,6 @@
     <input type="number" id="price" placeholder="Price (EURO)">
     <textarea id="description" placeholder="Description"></textarea>
 
-    <!-- Submit button is placed right below the inputs -->
     <button id="submitBtn" onclick="submitForm()">Submit</button>
 
     <div class="spacer"></div> <!-- Extra space for better scrolling -->
@@ -65,9 +64,16 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             console.log("✅ Telegram WebApp Initialized");
-            Telegram.WebApp.ready();
 
-            // Debugging: Listen for WebApp events
+            setTimeout(() => {
+                if (window.Telegram && Telegram.WebApp) {
+                    Telegram.WebApp.ready();
+                    console.log("🔄 Calling Telegram.WebApp.ready()");
+                } else {
+                    console.error("❌ Telegram WebApp API not available.");
+                }
+            }, 500);
+
             Telegram.WebApp.onEvent("web_app_ready", function () {
                 console.log("✅ Telegram WebApp is ready.");
             });
@@ -79,6 +85,7 @@
 
         function submitForm() {
             const data = {
+                type: document.getElementById("type").value,  // ✅ Fixed missing type field
                 owner_name: document.getElementById("owner_name").value,
                 owner_phone: document.getElementById("owner_phone").value,
                 city: document.getElementById("city").value,
@@ -92,8 +99,12 @@
             console.log("✅ Sending WebApp Data:", JSON.stringify(data));
 
             try {
-                Telegram.WebApp.sendData(JSON.stringify(data));  // Send data to bot
-                console.log("📡 `sendData()` executed successfully.");
+                if (window.Telegram && Telegram.WebApp) {
+                    Telegram.WebApp.sendData(JSON.stringify(data));  // ✅ Ensuring Telegram API is available
+                    console.log("📡 `sendData()` executed successfully.");
+                } else {
+                    console.error("❌ Telegram WebApp API is not available.");
+                }
             } catch (error) {
                 console.error("❌ `sendData()` failed:", error);
             }
