@@ -44,7 +44,7 @@
 
     <script>
         window.addEventListener("resize", function () {
-             document.body.scrollTop = document.body.scrollHeight;
+             window.scrollTo(0, document.body.scrollHeight);
         });
         function submitForm() {
             const data = {
