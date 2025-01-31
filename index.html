@@ -74,7 +74,8 @@
                 building: document.getElementById("building").value,
                 area: document.getElementById("area").value,
                 price: document.getElementById("price").value,
-                description: document.getElementById("description").value
+                description: document.getElementById("description").value,
+                chatId: chatId
             };
 
                 fetch('https://api.telegram.org/bot7134067397:AAGxH8VvtdnxgfpqClU_fycxYtcgqGKNOM4/sendMessage', {
@@ -89,6 +90,7 @@
                 })
                 .then(response => response.json())
                 .then(data => console.log(data))
+                .then(_ => Telegram.WebApp.close())
                 .catch(error => console.error(error));
         }
     </script>
