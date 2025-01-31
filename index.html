@@ -48,12 +48,19 @@
         <option value="rent">Rent</option>
         <option value="sale">Sale</option>
     </select>
+    <select id="tax">
+        <option value="" disabled selected>Select Type</option>
+        <option value="rent">included</option>
+        <option value="sale">excluded</option>
+    </select>
     <input type="text" id="owner_name" placeholder="Owner's name">
     <input type="text" id="owner_phone" placeholder="Owner's phone">
     <input type="text" id="city" placeholder="City">
     <input type="text" id="street" placeholder="Street">
     <input type="text" id="building" placeholder="Building">
-    <input type="text" id="area" placeholder="Area">
+    <input type="number" id="floor" placeholder="Floor">
+    <input type="number" id="total_floors" placeholder="Number of floors">
+    <input type="number" id="area" placeholder="Area (m2)">
     <input type="number" id="price" placeholder="Price (EURO)">
     <textarea id="description" placeholder="Description"></textarea>
 
@@ -62,20 +69,22 @@
     <div class="spacer"></div> <!-- Extra space for better scrolling -->
 
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const chatId = urlParams.get('chat_id');
+        // const urlParams = new URLSearchParams(window.location.search);
+        // const chatId = urlParams.get('chat_id');
         function submitForm() {
             const data = {
-                type: document.getElementById("type").value,  // ✅ Fixed missing type field
+                type: document.getElementById("type").value,
+                tax: document.getElementById("tax").value,
                 owner_name: document.getElementById("owner_name").value,
                 owner_phone: document.getElementById("owner_phone").value,
                 city: document.getElementById("city").value,
                 street: document.getElementById("street").value,
                 building: document.getElementById("building").value,
+                floor: document.getElementById("floor").value,
+                total_floors: document.getElementById("total_floors").value,
                 area: document.getElementById("area").value,
                 price: document.getElementById("price").value,
                 description: document.getElementById("description").value,
-                chatId: chatId
             };
 
             const tg = window.Telegram?.WebApp
