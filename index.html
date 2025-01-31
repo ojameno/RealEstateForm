@@ -78,20 +78,11 @@
                 chatId: chatId
             };
 
-                fetch('https://api.telegram.org/bot7134067397:AAGxH8VvtdnxgfpqClU_fycxYtcgqGKNOM4/sendMessage', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        chat_id: chatId,
-                        text: JSON.stringify(data)
-                    })
-                })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .then(_ => Telegram.WebApp.close())
-                .catch(error => console.error(error));
+            const tg = window.Telegram?.WebApp
+            if (tg) {
+                tg.sendData(JSON.stringify(data))
+                tg.close()
+            }
         }
     </script>
 
