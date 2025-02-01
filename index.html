@@ -38,21 +38,24 @@
             height: 300px; /* Extra space for better scrolling */
         }
         .heading {
-         color: #1e331e; /* Change to any color you want */
+            color: #1e3321;
+        }
+        .label-style {
+            color: #1e3321; /* Change to any color you want */
         }
     </style>
 </head>
 <body>
 
-    <h2 class="heading">🏠 Add Your Apartment</h2>
+    <h2 class="heading">🏠 Add new Object</h2>
 
-    <label for="type_of_deal">Type of Deal:</label>
+    <label for="type_of_deal" class="label-style>Type of Deal:</label>
     <select id="type_of_deal">
         <option value="" disabled selected>Select Type</option>
         <option value="rent">Rent</option>
         <option value="sale">Sale</option>
     </select>
-    <label for="tax" id="taxLabel" style="display: none;">Tax:</label>
+    <label for="tax" id="taxLabel" class="label-style" style="display: none;">Tax:</label>
     <select id="tax">
         <option value="" disabled selected>Select Tax</option>
         <option value="included">Included</option>
