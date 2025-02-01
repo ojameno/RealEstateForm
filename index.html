@@ -6,7 +6,6 @@
     <title>Add Apartment</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Default Light Mode */
         body {
             font-family: Arial, sans-serif;
             text-align: center;
@@ -16,8 +15,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #f9f9f9;
-            color: #333;
         }
         input, select, textarea {
             width: 90%;
@@ -25,9 +22,6 @@
             margin: 10px 0;
             font-size: 16px;
             box-sizing: border-box;
-            border: 1px solid #ccc;
-            background-color: white;
-            color: black;
         }
         button {
             background-color: #0088cc;
@@ -43,21 +37,6 @@
         .spacer {
             height: 300px; /* Extra space for better scrolling */
         }
-        /* Night Mode */
-        .dark-mode {
-            background-color: #222;
-            color: #ddd;
-        }
-        .dark-mode input,
-        .dark-mode select,
-        .dark-mode textarea {
-            background-color: #333;
-            color: white;
-            border: 1px solid #555;
-        }
-        .dark-mode button {
-            background-color: #0077b6;
-        }
     </style>
 </head>
 <body>
@@ -70,21 +49,17 @@
         <option value="rent">Rent</option>
         <option value="sale">Sale</option>
     </select>
-
     <label for="tax" id="taxLabel" style="display: none;">Tax:</label>
     <select id="tax">
         <option value="" disabled selected>Select Tax</option>
         <option value="included">Included</option>
         <option value="excluded">Excluded</option>
     </select>
-
-    <label for="type_of_object">Type of Object:</label>
     <select id="type_of_object">
         <option value="" disabled selected>Select Type</option>
         <option value="apartment">Apartment</option>
         <option value="house">House</option>
     </select>
-
     <input type="text" id="owner_name" placeholder="Owner's name">
     <input type="text" id="owner_phone" placeholder="Owner's phone">
     <input type="text" id="city" placeholder="City">
@@ -101,6 +76,9 @@
     <div class="spacer"></div> <!-- Extra space for better scrolling -->
 
     <script>
+        // const urlParams = new URLSearchParams(window.location.search);
+        // const chatId = urlParams.get('chat_id');
+
         document.getElementById("type_of_deal").addEventListener("change", function() {
             let taxSection = document.getElementById("tax");
             let taxLabel = document.getElementById("taxLabel");
@@ -137,16 +115,6 @@
                 tg.close()
             }
         }
-
-        // Auto-detect Telegram WebApp theme
-        function applyTheme() {
-            if (window.Telegram?.WebApp?.themeParams?.theme === "dark") {
-                document.body.classList.add("dark-mode");
-            }
-        }
-
-        // Apply theme immediately when the page loads
-        applyTheme();
     </script>
 
 </body>
