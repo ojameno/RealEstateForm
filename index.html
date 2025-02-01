@@ -35,7 +35,7 @@
             margin-top: 10px;
         }
         .spacer {
-            height: 300px; /* Extra space for better scrolling */
+            height: 300px;
         }
         .heading {
             color: #1e3321;
@@ -46,6 +46,7 @@
 
     <!-- Language Selector -->
     <select id="languageSelector">
+        <option value="ua">🇺🇦 Українська</option>
         <option value="en">🇬🇧 English</option>
         <option value="ru">🇷🇺 Русский</option>
     </select>
@@ -54,14 +55,14 @@
 
     <label for="type_of_deal" id="label-type_of_deal">Type of Deal:</label>
     <select id="type_of_deal">
-        <option value="" disabled selected>Select Type</option>
+        <option value="" disabled selected id="option-select-type">Select Type</option>
         <option value="rent" id="option-rent">Rent</option>
         <option value="sale" id="option-sale">Sale</option>
     </select>
 
     <label for="type_of_object" id="label-type_of_object">Type of Object:</label>
     <select id="type_of_object">
-        <option value="" disabled selected>Select Type</option>
+        <option value="" disabled selected id="option-select-object">Select Type</option>
         <option value="apartment" id="option-apartment">Apartment</option>
         <option value="house" id="option-house">House</option>
     </select>
@@ -79,7 +80,7 @@
 
     <label for="tax" id="taxLabel" style="display: none;">Tax:</label>
     <select id="tax">
-        <option value="" disabled selected>Select Tax</option>
+        <option value="" disabled selected id="option-select-tax">Select Tax</option>
         <option value="included" id="option-tax_included">Included</option>
         <option value="excluded" id="option-tax_excluded">Excluded</option>
     </select>
@@ -95,9 +96,11 @@
             en: {
                 title: "🏠 Add Object",
                 type_of_deal: "Type of Deal:",
+                select_type: "Select Type",
                 rent: "Rent",
                 sale: "Sale",
                 type_of_object: "Type of Object:",
+                select_object: "Select Type",
                 apartment: "Apartment",
                 house: "House",
                 owner_name: "Owner's name",
@@ -111,6 +114,7 @@
                 area: "Area (m²)",
                 price: "Price (EURO)",
                 tax: "Tax:",
+                select_tax: "Select Tax",
                 tax_included: "Included",
                 tax_excluded: "Excluded",
                 description: "Description",
@@ -119,9 +123,11 @@
             ru: {
                 title: "🏠 Добавить объект",
                 type_of_deal: "Тип сделки:",
+                select_type: "Выберите тип",
                 rent: "Аренда",
                 sale: "Продажа",
                 type_of_object: "Тип объекта:",
+                select_object: "Выберите тип",
                 apartment: "Квартира",
                 house: "Дом",
                 owner_name: "Имя владельца",
@@ -135,47 +141,63 @@
                 area: "Площадь (м²)",
                 price: "Цена (EURO)",
                 tax: "Налог:",
+                select_tax: "Выберите налог",
                 tax_included: "Включено",
                 tax_excluded: "Исключено",
                 description: "Описание",
                 submit: "Отправить"
+            },
+            ua: {
+                title: "🏠 Додати об'єкт",
+                type_of_deal: "Тип угоди:",
+                select_type: "Оберіть тип",
+                rent: "Оренда",
+                sale: "Продаж",
+                type_of_object: "Тип об'єкта:",
+                select_object: "Оберіть тип",
+                apartment: "Квартира",
+                house: "Будинок",
+                owner_name: "Ім'я власника",
+                owner_phone: "Телефон власника",
+                city: "Місто",
+                street: "Вулиця",
+                building: "Будівля",
+                apartment_number: "Номер квартири",
+                floor: "Поверх",
+                total_floors: "Кількість поверхів",
+                area: "Площа (м²)",
+                price: "Ціна (EURO)",
+                tax: "Податок:",
+                select_tax: "Оберіть податок",
+                tax_included: "Включено",
+                tax_excluded: "Виключено",
+                description: "Опис",
+                submit: "Надіслати"
             }
         };
 
         function setLanguage(lang) {
             document.getElementById("title").textContent = translations[lang].title;
             document.getElementById("label-type_of_deal").textContent = translations[lang].type_of_deal;
+            document.getElementById("option-select-type").textContent = translations[lang].select_type;
             document.getElementById("option-rent").textContent = translations[lang].rent;
             document.getElementById("option-sale").textContent = translations[lang].sale;
             document.getElementById("label-type_of_object").textContent = translations[lang].type_of_object;
+            document.getElementById("option-select-object").textContent = translations[lang].select_object;
             document.getElementById("option-apartment").textContent = translations[lang].apartment;
             document.getElementById("option-house").textContent = translations[lang].house;
             document.getElementById("taxLabel").textContent = translations[lang].tax;
+            document.getElementById("option-select-tax").textContent = translations[lang].select_tax;
             document.getElementById("option-tax_included").textContent = translations[lang].tax_included;
             document.getElementById("option-tax_excluded").textContent = translations[lang].tax_excluded;
-
-            document.getElementById("owner_name").placeholder = translations[lang].owner_name;
-            document.getElementById("owner_phone").placeholder = translations[lang].owner_phone;
-            document.getElementById("city").placeholder = translations[lang].city;
-            document.getElementById("street").placeholder = translations[lang].street;
-            document.getElementById("building").placeholder = translations[lang].building;
-            document.getElementById("apartment").placeholder = translations[lang].apartment_number;
-            document.getElementById("floor").placeholder = translations[lang].floor;
-            document.getElementById("total_floors").placeholder = translations[lang].total_floors;
-            document.getElementById("area").placeholder = translations[lang].area;
-            document.getElementById("price").placeholder = translations[lang].price;
-            document.getElementById("description").placeholder = translations[lang].description;
             document.getElementById("submitBtn").textContent = translations[lang].submit;
         }
 
-        // Detect language from URL or default to English
         const urlParams = new URLSearchParams(window.location.search);
-        const userLang = urlParams.get("locale") || "en"; // Default: English
+        const userLang = urlParams.get("locale") || "en";
 
-        // Apply language
         setLanguage(userLang);
 
-        // Change language on dropdown select
         document.getElementById("languageSelector").addEventListener("change", function () {
             setLanguage(this.value);
         });
