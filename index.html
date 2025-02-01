@@ -44,11 +44,11 @@
 </head>
 <body>
 
-    <!-- Language Selector -->
+    <!-- Language Selector (Default Selected Language) -->
     <select id="languageSelector">
-        <option value="ua">🇺🇦 Українська</option>
         <option value="en">🇬🇧 English</option>
         <option value="ru">🇷🇺 Русский</option>
+        <option value="ua">🇺🇦 Українська</option>
     </select>
 
     <h2 class="heading" id="title">🏠 Add Object</h2>
@@ -188,9 +188,9 @@
             document.getElementById("option-house").textContent = translations[lang].house;
             document.getElementById("taxLabel").textContent = translations[lang].tax;
             document.getElementById("option-select-tax").textContent = translations[lang].select_tax;
-            document.getElementById("option-tax_included").textContent = translations[lang].tax_included;
-            document.getElementById("option-tax_excluded").textContent = translations[lang].tax_excluded;
             document.getElementById("submitBtn").textContent = translations[lang].submit;
+
+            document.getElementById("languageSelector").value = lang;
         }
 
         const urlParams = new URLSearchParams(window.location.search);
