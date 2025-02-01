@@ -44,80 +44,141 @@
 </head>
 <body>
 
-    <h2 class="heading">🏠 Add Object</h2>
+    <!-- Language Selector -->
+    <select id="languageSelector">
+        <option value="en">🇬🇧 English</option>
+        <option value="ru">🇷🇺 Русский</option>
+    </select>
 
-    <label for="type_of_deal" >Type of Deal:</label>
+    <h2 class="heading" id="title">🏠 Add Object</h2>
+
+    <label for="type_of_deal" id="label-type_of_deal">Type of Deal:</label>
     <select id="type_of_deal">
         <option value="" disabled selected>Select Type</option>
-        <option value="rent">Rent</option>
-        <option value="sale">Sale</option>
+        <option value="rent" id="option-rent">Rent</option>
+        <option value="sale" id="option-sale">Sale</option>
     </select>
+
+    <label for="type_of_object" id="label-type_of_object">Type of Object:</label>
     <select id="type_of_object">
         <option value="" disabled selected>Select Type</option>
-        <option value="apartment">Apartment</option>
-        <option value="house">House</option>
+        <option value="apartment" id="option-apartment">Apartment</option>
+        <option value="house" id="option-house">House</option>
     </select>
+
     <input type="text" id="owner_name" placeholder="Owner's name">
     <input type="text" id="owner_phone" placeholder="Owner's phone">
     <input type="text" id="city" placeholder="City">
     <input type="text" id="street" placeholder="Street">
     <input type="text" id="building" placeholder="Building">
+    <input type="number" id="apartment" placeholder="Apartment number">
     <input type="number" id="floor" placeholder="Floor">
     <input type="number" id="total_floors" placeholder="Number of floors">
     <input type="number" id="area" placeholder="Area (m2)">
     <input type="number" id="price" placeholder="Price (EURO)">
+
     <label for="tax" id="taxLabel" style="display: none;">Tax:</label>
     <select id="tax">
         <option value="" disabled selected>Select Tax</option>
-        <option value="included">Included</option>
-        <option value="excluded">Excluded</option>
+        <option value="included" id="option-tax_included">Included</option>
+        <option value="excluded" id="option-tax_excluded">Excluded</option>
     </select>
+
     <textarea id="description" placeholder="Description"></textarea>
 
-    <button id="submitBtn" onclick="submitForm()">Submit</button>
+    <button id="submitBtn">Submit</button>
 
-    <div class="spacer"></div> <!-- Extra space for better scrolling -->
+    <div class="spacer"></div>
 
     <script>
-        // const urlParams = new URLSearchParams(window.location.search);
-        // const chatId = urlParams.get('chat_id');
-
-        document.getElementById("type_of_deal").addEventListener("change", function() {
-            let taxSection = document.getElementById("tax");
-            let taxLabel = document.getElementById("taxLabel");
-
-            if (this.value === "sale") {
-                taxSection.style.display = "block";
-                taxLabel.style.display = "block";
-            } else {
-                taxSection.style.display = "none";
-                taxLabel.style.display = "none";
+        const translations = {
+            en: {
+                title: "🏠 Add Object",
+                type_of_deal: "Type of Deal:",
+                rent: "Rent",
+                sale: "Sale",
+                type_of_object: "Type of Object:",
+                apartment: "Apartment",
+                house: "House",
+                owner_name: "Owner's name",
+                owner_phone: "Owner's phone",
+                city: "City",
+                street: "Street",
+                building: "Building",
+                apartment_number: "Apartment number",
+                floor: "Floor",
+                total_floors: "Number of floors",
+                area: "Area (m²)",
+                price: "Price (EURO)",
+                tax: "Tax:",
+                tax_included: "Included",
+                tax_excluded: "Excluded",
+                description: "Description",
+                submit: "Submit"
+            },
+            ru: {
+                title: "🏠 Добавить объект",
+                type_of_deal: "Тип сделки:",
+                rent: "Аренда",
+                sale: "Продажа",
+                type_of_object: "Тип объекта:",
+                apartment: "Квартира",
+                house: "Дом",
+                owner_name: "Имя владельца",
+                owner_phone: "Телефон владельца",
+                city: "Город",
+                street: "Улица",
+                building: "Здание",
+                apartment_number: "Номер квартиры",
+                floor: "Этаж",
+                total_floors: "Количество этажей",
+                area: "Площадь (м²)",
+                price: "Цена (EURO)",
+                tax: "Налог:",
+                tax_included: "Включено",
+                tax_excluded: "Исключено",
+                description: "Описание",
+                submit: "Отправить"
             }
-        });
+        };
 
-        function submitForm() {
-            const data = {
-                type_of_deal: document.getElementById("type_of_deal").value,
-                type_of_object: document.getElementById("type_of_object").value,
-                tax: document.getElementById("tax").value,
-                owner_name: document.getElementById("owner_name").value,
-                owner_phone: document.getElementById("owner_phone").value,
-                city: document.getElementById("city").value,
-                street: document.getElementById("street").value,
-                building: document.getElementById("building").value,
-                floor: document.getElementById("floor").value,
-                total_floors: document.getElementById("total_floors").value,
-                area: document.getElementById("area").value,
-                price: document.getElementById("price").value,
-                description: document.getElementById("description").value,
-            };
+        function setLanguage(lang) {
+            document.getElementById("title").textContent = translations[lang].title;
+            document.getElementById("label-type_of_deal").textContent = translations[lang].type_of_deal;
+            document.getElementById("option-rent").textContent = translations[lang].rent;
+            document.getElementById("option-sale").textContent = translations[lang].sale;
+            document.getElementById("label-type_of_object").textContent = translations[lang].type_of_object;
+            document.getElementById("option-apartment").textContent = translations[lang].apartment;
+            document.getElementById("option-house").textContent = translations[lang].house;
+            document.getElementById("taxLabel").textContent = translations[lang].tax;
+            document.getElementById("option-tax_included").textContent = translations[lang].tax_included;
+            document.getElementById("option-tax_excluded").textContent = translations[lang].tax_excluded;
 
-            const tg = window.Telegram?.WebApp
-            if (tg) {
-                tg.sendData(JSON.stringify(data))
-                tg.close()
-            }
+            document.getElementById("owner_name").placeholder = translations[lang].owner_name;
+            document.getElementById("owner_phone").placeholder = translations[lang].owner_phone;
+            document.getElementById("city").placeholder = translations[lang].city;
+            document.getElementById("street").placeholder = translations[lang].street;
+            document.getElementById("building").placeholder = translations[lang].building;
+            document.getElementById("apartment").placeholder = translations[lang].apartment_number;
+            document.getElementById("floor").placeholder = translations[lang].floor;
+            document.getElementById("total_floors").placeholder = translations[lang].total_floors;
+            document.getElementById("area").placeholder = translations[lang].area;
+            document.getElementById("price").placeholder = translations[lang].price;
+            document.getElementById("description").placeholder = translations[lang].description;
+            document.getElementById("submitBtn").textContent = translations[lang].submit;
         }
+
+        // Detect language from URL or default to English
+        const urlParams = new URLSearchParams(window.location.search);
+        const userLang = urlParams.get("locale") || "en"; // Default: English
+
+        // Apply language
+        setLanguage(userLang);
+
+        // Change language on dropdown select
+        document.getElementById("languageSelector").addEventListener("change", function () {
+            setLanguage(this.value);
+        });
     </script>
 
 </body>
