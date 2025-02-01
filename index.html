@@ -43,15 +43,22 @@
 
     <h2>🏠 Add Your Apartment</h2>
 
-    <select id="type">
+    <label for="type_of_deal">Type of Deal:</label>
+    <select id="type_of_deal">
         <option value="" disabled selected>Select Type</option>
         <option value="rent">Rent</option>
         <option value="sale">Sale</option>
     </select>
+    <label for="tax" id="taxLabel" style="display: none;">Tax:</label>
     <select id="tax">
+        <option value="" disabled selected>Select Tax</option>
+        <option value="included">Included</option>
+        <option value="excluded">Excluded</option>
+    </select>
+    <select id="type_of_object">
         <option value="" disabled selected>Select Type</option>
-        <option value="rent">included</option>
-        <option value="sale">excluded</option>
+        <option value="apartment">Apartment</option>
+        <option value="house">House</option>
     </select>
     <input type="text" id="owner_name" placeholder="Owner's name">
     <input type="text" id="owner_phone" placeholder="Owner's phone">
@@ -71,9 +78,24 @@
     <script>
         // const urlParams = new URLSearchParams(window.location.search);
         // const chatId = urlParams.get('chat_id');
+
+        document.getElementById("type_of_deal").addEventListener("change", function() {
+            let taxSection = document.getElementById("tax");
+            let taxLabel = document.getElementById("taxLabel");
+
+            if (this.value === "sale") {
+                taxSection.style.display = "block";
+                taxLabel.style.display = "block";
+            } else {
+                taxSection.style.display = "none";
+                taxLabel.style.display = "none";
+            }
+        });
+        
         function submitForm() {
             const data = {
-                type: document.getElementById("type").value,
+                type_of_deal: document.getElementById("type_of_deal").value,
+                type_of_object: document.getElementById("type_of_object").value,
                 tax: document.getElementById("tax").value,
                 owner_name: document.getElementById("owner_name").value,
                 owner_phone: document.getElementById("owner_phone").value,
