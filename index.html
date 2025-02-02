@@ -47,6 +47,7 @@
     <!-- Language Selector -->
     <select id="language_selector">
         <option value="en">🇬🇧 English</option>
+        <option value="ua">🇺🇦 Українська</option>
         <option value="ru">🇷🇺 Русский</option>
     </select>
 
@@ -90,7 +91,24 @@
 
     <div class="spacer"></div>
 
-    <script>
+    <script type="module">
+        import { setLanguage } from './locale.js'
+
+        // Detect language from URL or default to English
+        const urlParams = new URLSearchParams(window.location.search)
+        const userLang = urlParams.get("locale") || "en"
+
+        // Set language selector according to passed locale
+        let languageSection = document.getElementById("language_selector")
+        languageSection.value = userLang
+        setLanguage(userLang)
+
+        // Change language on dropdown select
+        document.getElementById("language_selector").addEventListener("change", function () {
+            setLanguage(this.value);
+        })
+
+        //
         document.getElementById("type_of_deal").addEventListener("change", function() {
             let taxSection = document.getElementById("tax")
             let taxLabel = document.getElementById("taxLabel")
@@ -104,96 +122,6 @@
             }
         });
 
-        // Detect language from URL or default to English
-        const urlParams = new URLSearchParams(window.location.search)
-        const userLang = urlParams.get("locale") || "en"
-
-        // set language selector according to passed locale
-        let languageSection = document.getElementById("language_selector")
-        languageSection.value = userLang
-
-        const translations = {
-            en: {
-                title: "🏠 Add object",
-                type_of_deal: "Select type of deal",
-                rent: "Rent",
-                sale: "Sale",
-                type_of_object: "Select type of object",
-                apartment: "Apartment",
-                house: "House",
-                owner_name: "Owner's name",
-                owner_phone: "Owner's phone",
-                city: "City",
-                street: "Street",
-                building: "Building",
-                apartment_number: "Apartment number",
-                floor: "Floor",
-                total_floors: "Number of floors",
-                area: "Area (m²)",
-                price: "Price (EURO)",
-                tax: "Select Tax",
-                tax_included: "Included",
-                tax_excluded: "Excluded",
-                description: "Description",
-                submit: "Submit"
-            },
-            ru: {
-                title: "🏠 Добавить объект",
-                type_of_deal: "Выберите тип cделки",
-                rent: "Аренда",
-                sale: "Продажа",
-                type_of_object: "Выберите тип oбъекта",
-                apartment: "Квартира",
-                house: "Дом",
-                owner_name: "Имя владельца",
-                owner_phone: "Телефон владельца",
-                city: "Город",
-                street: "Улица",
-                building: "Здание",
-                apartment_number: "Номер квартиры",
-                floor: "Этаж",
-                total_floors: "Количество этажей",
-                area: "Площадь (м²)",
-                price: "Цена (EURO)",
-                tax: "Выберите налог",
-                tax_included: "Включено",
-                tax_excluded: "Исключено",
-                description: "Описание",
-                submit: "Отправить"
-            }
-        };
-
-        function setLanguage(lang) {
-            document.getElementById("title").textContent = translations[lang].title;
-            document.getElementById("option-type_of_deal").textContent = translations[lang].type_of_deal;
-            document.getElementById("option-rent").textContent = translations[lang].rent;
-            document.getElementById("option-sale").textContent = translations[lang].sale;
-            document.getElementById("option-type_of_object").textContent = translations[lang].type_of_object;
-            document.getElementById("option-apartment").textContent = translations[lang].apartment;
-            document.getElementById("option-house").textContent = translations[lang].house;
-            document.getElementById("option-tax").textContent = translations[lang].tax;
-            document.getElementById("option-tax_included").textContent = translations[lang].tax_included;
-            document.getElementById("option-tax_excluded").textContent = translations[lang].tax_excluded;
-            document.getElementById("owner_name").placeholder = translations[lang].owner_name;
-            document.getElementById("owner_phone").placeholder = translations[lang].owner_phone;
-            document.getElementById("city").placeholder = translations[lang].city;
-            document.getElementById("street").placeholder = translations[lang].street;
-            document.getElementById("building").placeholder = translations[lang].building;
-            document.getElementById("apartment").placeholder = translations[lang].apartment_number;
-            document.getElementById("floor").placeholder = translations[lang].floor;
-            document.getElementById("total_floors").placeholder = translations[lang].total_floors;
-            document.getElementById("area").placeholder = translations[lang].area;
-            document.getElementById("price").placeholder = translations[lang].price;
-            document.getElementById("description").placeholder = translations[lang].description;
-            document.getElementById("submitBtn").textContent = translations[lang].submit;
-        }
-
-        setLanguage(userLang);
-
-        // Change language on dropdown select
-        document.getElementById("language_selector").addEventListener("change", function () {
-            setLanguage(this.value);
-        });
     </script>
 
 </body>
