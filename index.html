@@ -52,16 +52,16 @@
 
     <h2 class="heading" id="title">🏠 Add Object</h2>
 
-    <label for="type_of_deal" id="label-type_of_deal">Type of Deal:</label>
+    <label for="type_of_deal" id="label-type_of_deal"></label>
     <select id="type_of_deal">
-        <option value="" disabled selected>Select Type</option>
+        <option value="" disabled selected id="option-type_of_deal"> Select type of Deal</option>
         <option value="rent" id="option-rent">Rent</option>
         <option value="sale" id="option-sale">Sale</option>
     </select>
 
-    <label for="type_of_object" id="label-type_of_object">Type of Object:</label>
+    <label for="type_of_object" id="label-type_of_object"></label>
     <select id="type_of_object">
-        <option value="" disabled selected>Select Type</option>
+        <option value="" disabled selected id="option-type_of_object">Select type of Object</option>
         <option value="apartment" id="option-apartment">Apartment</option>
         <option value="house" id="option-house">House</option>
     </select>
@@ -77,9 +77,9 @@
     <input type="number" id="area" placeholder="Area (m2)">
     <input type="number" id="price" placeholder="Price (EURO)">
 
-    <label for="tax" id="taxLabel" style="display: none;">Tax:</label>
+    <label for="tax" id="taxLabel" style="display: none;"></label>
     <select id="tax">
-        <option value="" disabled selected>Select Tax</option>
+        <option value="" disabled selected id="option-tax">Select Tax</option>
         <option value="included" id="option-tax_included">Included</option>
         <option value="excluded" id="option-tax_excluded">Excluded</option>
     </select>
@@ -92,31 +92,33 @@
 
     <script>
         document.getElementById("type_of_deal").addEventListener("change", function() {
-            let taxSection = document.getElementById("tax");
-            let taxLabel = document.getElementById("taxLabel");
+            let taxSection = document.getElementById("tax")
+            let taxLabel = document.getElementById("taxLabel")
 
             if (this.value === "sale") {
-                taxSection.style.display = "block";
-                taxLabel.style.display = "block";
+                taxSection.style.display = "block"
+                taxLabel.style.display = "block"
             } else {
-                taxSection.style.display = "none";
-                taxLabel.style.display = "none";
+                taxSection.style.display = "none"
+                taxLabel.style.display = "none"
             }
         });
 
         // Detect language from URL or default to English
-        const urlParams = new URLSearchParams(window.location.search);
-        const userLang = urlParams.get("locale") || "en"; // Default: English
-        let languageSection = document.getElementById("language_selector");
+        const urlParams = new URLSearchParams(window.location.search)
+        const userLang = urlParams.get("locale") || "en"
+
+        // set language selector according to passed locale
+        let languageSection = document.getElementById("language_selector")
         languageSection.value = userLang
 
         const translations = {
             en: {
-                title: "🏠 Add Object",
-                type_of_deal: "Type of Deal:",
+                title: "🏠 Add object",
+                type_of_deal: "Select type of deal",
                 rent: "Rent",
                 sale: "Sale",
-                type_of_object: "Type of Object:",
+                type_of_object: "Select type of object",
                 apartment: "Apartment",
                 house: "House",
                 owner_name: "Owner's name",
@@ -129,7 +131,7 @@
                 total_floors: "Number of floors",
                 area: "Area (m²)",
                 price: "Price (EURO)",
-                tax: "Tax:",
+                tax: "Select Tax",
                 tax_included: "Included",
                 tax_excluded: "Excluded",
                 description: "Description",
@@ -137,10 +139,10 @@
             },
             ru: {
                 title: "🏠 Добавить объект",
-                type_of_deal: "Тип сделки:",
+                type_of_deal: "Выберите тип cделки",
                 rent: "Аренда",
                 sale: "Продажа",
-                type_of_object: "Тип объекта:",
+                type_of_object: "Выберите тип oбъекта",
                 apartment: "Квартира",
                 house: "Дом",
                 owner_name: "Имя владельца",
@@ -153,7 +155,7 @@
                 total_floors: "Количество этажей",
                 area: "Площадь (м²)",
                 price: "Цена (EURO)",
-                tax: "Налог:",
+                tax: "Выберите налог",
                 tax_included: "Включено",
                 tax_excluded: "Исключено",
                 description: "Описание",
@@ -163,13 +165,13 @@
 
         function setLanguage(lang) {
             document.getElementById("title").textContent = translations[lang].title;
-            document.getElementById("label-type_of_deal").textContent = translations[lang].type_of_deal;
+            document.getElementById("option-type_of_deal").textContent = translations[lang].type_of_deal;
             document.getElementById("option-rent").textContent = translations[lang].rent;
             document.getElementById("option-sale").textContent = translations[lang].sale;
-            document.getElementById("label-type_of_object").textContent = translations[lang].type_of_object;
+            document.getElementById("option-type_of_object").textContent = translations[lang].type_of_object;
             document.getElementById("option-apartment").textContent = translations[lang].apartment;
             document.getElementById("option-house").textContent = translations[lang].house;
-            document.getElementById("taxLabel").textContent = translations[lang].tax;
+            document.getElementById("option-tax").textContent = translations[lang].tax;
             document.getElementById("option-tax_included").textContent = translations[lang].tax_included;
             document.getElementById("option-tax_excluded").textContent = translations[lang].tax_excluded;
             document.getElementById("owner_name").placeholder = translations[lang].owner_name;
@@ -186,7 +188,6 @@
             document.getElementById("submitBtn").textContent = translations[lang].submit;
         }
 
-        // Apply language
         setLanguage(userLang);
 
         // Change language on dropdown select
