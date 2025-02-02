@@ -45,7 +45,7 @@
 <body>
 
     <!-- Language Selector -->
-    <select id="languageSelector">
+    <select id="language_selector">
         <option value="en">🇬🇧 English</option>
         <option value="ru">🇷🇺 Русский</option>
     </select>
@@ -91,6 +91,25 @@
     <div class="spacer"></div>
 
     <script>
+        document.getElementById("type_of_deal").addEventListener("change", function() {
+            let taxSection = document.getElementById("tax");
+            let taxLabel = document.getElementById("taxLabel");
+
+            if (this.value === "sale") {
+                taxSection.style.display = "block";
+                taxLabel.style.display = "block";
+            } else {
+                taxSection.style.display = "none";
+                taxLabel.style.display = "none";
+            }
+        });
+
+        // Detect language from URL or default to English
+        const urlParams = new URLSearchParams(window.location.search);
+        const userLang = urlParams.get("locale") || "en"; // Default: English
+        let languageSection = document.getElementById("language_selector");
+        languageSection.value = userLang
+
         const translations = {
             en: {
                 title: "🏠 Add Object",
@@ -167,15 +186,11 @@
             document.getElementById("submitBtn").textContent = translations[lang].submit;
         }
 
-        // Detect language from URL or default to English
-        const urlParams = new URLSearchParams(window.location.search);
-        const userLang = urlParams.get("locale") || "en"; // Default: English
-
         // Apply language
         setLanguage(userLang);
 
         // Change language on dropdown select
-        document.getElementById("languageSelector").addEventListener("change", function () {
+        document.getElementById("language_selector").addEventListener("change", function () {
             setLanguage(this.value);
         });
     </script>
